@@ -109,8 +109,10 @@ section.main-container {
   justify-items: center;
   gap: 30px;
 }
-.book-box {
-  position: relative;
+.book-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   width: 300px;
   height: 350px;
   padding: 20px;
@@ -118,11 +120,10 @@ section.main-container {
   line-height: 2;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;  
   background-color: var(--white-bg-color);
+  transition: 500ms ease-in-out;
 }
 .delete-button {
-  position: absolute;
-  bottom: 30%;
-  right: calc(50% - 50px);
+  align-self: center;
   width: 100px;
   height: min-content;
   font-size: 14px;

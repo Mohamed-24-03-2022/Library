@@ -3,12 +3,10 @@ const titleInput = document.querySelector("#title");
 const authorInput = document.querySelector("#author");
 const pagesInput = document.querySelector("#pages");
 const haveYouReadItInput = document.querySelector("#haveYouReadIt");
-
 const formContainer = document.querySelector(".form-container");
 const booksContainer = document.querySelector(".books-container");
 const addNewBookButton = document.querySelector(".new-books button");
 const closeButton = document.querySelector(".close-button");
-// const deleteButton = document.querySelector(".delete-button");
 const body = document.querySelector("body");
 const myLibrary = [];
 
@@ -23,46 +21,65 @@ Book.prototype.info = function () {
 };
 // default items
 const book1 = new Book("The Compound Effect", "Darren Hardy", "200", true);
-const book2 = new Book("Atomic habit", "James Clear", "350", true);
-myLibrary.push(book1, book2);
+myLibrary.push(book1);
 
-// declaring i here to the for loop so it doesn't iterate over elements that are already iterated over.
-let i = 0;
-const displayBookCard = () => {
-    for (i; i < myLibrary.length; i++) {
-        const bookBox = document.createElement("div");
-        bookBox.classList.add("book-box");
-        bookBox.setAttribute("data-index-number", i);
 
-        booksContainer.appendChild(bookBox);
-        const titleP = document.createElement("p");
-        const authorP = document.createElement("p");
-        const pagesP = document.createElement("p");
-        const haveYouReadItP = document.createElement("p");
-        const deleteButton = document.createElement("button");
-        deleteButton.classList.add("delete-button");
-        deleteButton.textContent = "Delete book";
-
-        const book = myLibrary[i];
-        titleP.textContent = `Title: ${book.title}`;
-        authorP.textContent = `Author: ${book.author}`;
-        pagesP.textContent = `Pages: ${book.pages}`;
-
-        if (book.haveYouReadIt === true) {
-            book.haveYouReadIt = "Yes";
-        } else {
-            book.haveYouReadIt = "No";
+const createCard = () => {
+    const bookCard = document.createElement("div");
+    const titlePara = document.createElement("p");
+    const authorPara = document.createElement("p");
+    const pagesPara = document.createElement("p");
+    const haveYouReadItPara = document.createElement("p");
+    const deleteButton = document.createElement("button");
+    const readStatusButton = document.createElement("button");
+    // bookCard.setAttribute("data-index-number", i);
+    // const index = bookCard.dataset.indexNumber;
+    // myLibrary.splice(index, 1);
+    bookCard.classList.add("book-card");
+    deleteButton.classList.add("delete-button");
+    deleteButton.textContent = "Delete book";
+    readStatusButton.classList.add("read-status");
+    readStatusButton.textContent = "Change status";
+    fillBookCard(bookCard, titlePara, authorPara, pagesPara, haveYouReadItPara, deleteButton, readStatusButton);
+}
+const deleteCard = (deleteButton, book) => {
+    deleteButton.addEventListener("click", (e) => {
+        const bookTitle = e.target.parentElement.firstChild.textContent.slice(7);
+        if (bookTitle === book.title) {
+            myLibrary.splice(myLibrary.indexOf(book), 1);
+            e.target.parentElement.remove();
         }
-        haveYouReadItP.textContent = `Have You Read It: ${book.haveYouReadIt}`;
-
-        bookBox.appendChild(titleP);
-        bookBox.appendChild(authorP);
-        bookBox.appendChild(pagesP);
-        bookBox.appendChild(haveYouReadItP);
-        bookBox.appendChild(deleteButton);
-    }
+    });
+}
+const changeStatus = (readStatusButton, book, haveYouReadItPara) => {
+    readStatusButton.addEventListener("click", () => {
+        if (book.haveYouReadIt === "Yes") {
+            book.haveYouReadIt = "No";
+        } else {
+            book.haveYouReadIt = "Yes";
+        }
+        haveYouReadItPara.textContent = `Have You Read It: ${book.haveYouReadIt}`;
+    });
+}
+const fillBookCard = (bookCard, titlePara, authorPara, pagesPara, haveYouReadItPara, deleteButton, readStatusButton) => {
+    myLibrary.forEach(book => {
+        titlePara.textContent = `Title: ${book.title}`;
+        authorPara.textContent = `Author: ${book.author}`;
+        pagesPara.textContent = `Pages: ${book.pages}`;
+        book.haveYouReadIt === true ? (book.haveYouReadIt = "Yes") : (book.haveYouReadIt = "No");
+        haveYouReadItPara.textContent = `Have You Read It: ${book.haveYouReadIt}`;
+        booksContainer.appendChild(bookCard);
+        bookCard.appendChild(titlePara);
+        bookCard.appendChild(authorPara);
+        bookCard.appendChild(pagesPara);
+        bookCard.appendChild(haveYouReadItPara);
+        bookCard.appendChild(deleteButton);
+        bookCard.appendChild(readStatusButton);
+        deleteCard(deleteButton, book);
+        changeStatus(readStatusButton, book, haveYouReadItPara);
+    });
 };
-displayBookCard();
+createCard(); // to load default items
 
 const resettingInputs = () => {
     titleInput.value = "";
@@ -70,7 +87,7 @@ const resettingInputs = () => {
     pagesInput.value = "";
     haveYouReadItInput.checked = false;
 };
-function addBookToLibrary() {
+const addBookToLibrary = () => {
     addBookToLibraryButton.addEventListener("click", () => {
         if (!titleInput.value || !authorInput.value || !pagesInput.value) {
             return;
@@ -82,16 +99,12 @@ function addBookToLibrary() {
             haveYouReadItInput.checked
         );
         myLibrary.push(newBook);
-        displayBookCard();
+        createCard();
         resettingInputs();
         closeWindow();
-        console.log(i);
-        console.log(myLibrary);
     });
 }
 addBookToLibrary();
-
-
 addNewBookButton.addEventListener("click", () => {
     formContainer.style.scale = "1";
     addBookToLibraryButton.style.visibility = "visible";
@@ -100,7 +113,6 @@ addNewBookButton.addEventListener("click", () => {
         body.style.backgroundColor = "#00000087";
     }
 });
-
 const closeWindow = () => {
     formContainer.style.scale = "0";
     addBookToLibraryButton.style.visibility = "hidden";
@@ -110,18 +122,3 @@ const closeWindow = () => {
     }
 };
 closeButton.addEventListener("click", closeWindow);
-
-// body.addEventListener("click", closeWindow);
-
-
-const deleteBookBox = () => {
-    deleteButton.addEventListener("click", () => {
-        const index = bookBox.dataset.indexNumber;
-        console.log(myLibrary);
-        myLibrary.splice(index, 1);
-        console.log(myLibrary);
-    });
-}
-setTimeout(() => {
-    deleteBookBox();
-}, 300);
