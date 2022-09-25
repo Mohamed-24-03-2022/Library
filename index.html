@@ -7,7 +7,11 @@
 
     <link rel="stylesheet" href="styles.css" />
     <script src="index.js" defer></script>
-    <link rel="shortcut icon" href="./img/serialized-books.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="./img/serialized-books.png"
+      type="image/x-icon"
+    />
     <title>Library</title>
   </head>
   <body>
@@ -27,13 +31,13 @@
         <button>+ Add book</button>
       </div>
       <div class="books-container">
-   
-        <div class="book-box"></div>
-        <div class="book-box"></div>
-        <div class="book-box"></div>
-        <div class="book-box"></div>
-        <div class="book-box"></div>
-        
+        <!-- <div class="book-box">
+          <p>Title:</p>
+          <p>Author:</p>
+          <p>Pages:</p>
+          <p>Have You Read It:</p>
+        </div> -->
+
       </div>
     </section>
 
@@ -47,6 +51,44 @@
         </p>
       </div>
     </footer>
+
+    <!---------------------------- Adding a new book card ---------------------------------->
+    <div class="form-container">
+      <button class="close-button">close</button>
+      <form action="/">
+        <div>
+          <label for="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div>
+          <label for="author">Author</label>
+          <input
+            type="text"
+            name="author"
+            id="author"
+            spellcheck="false"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div>
+          <label for="pages">Pages</label>
+          <input type="number" name="pages" id="pages" required />
+        </div>
+        <div>
+          <label for="haveYouReadIt">Have You Read It</label>
+          <input type="checkbox" name="haveYouReadIt" id="haveYouReadIt" />
+        </div>
+        <button class="addItButton">Add it</button>
+      </form>
+    </div>
+    <!--------------------------------------------------------------------------------------------------->
 
     <script
       src="https://kit.fontawesome.com/4beab0cc1e.js"
