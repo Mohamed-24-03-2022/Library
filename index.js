@@ -153,10 +153,13 @@ window.addEventListener("keydown", (e) => {
 
 closeButton.addEventListener("click", closeWindow);
 
+
 body.addEventListener('click', (e) => {
     if (openFormButton.contains(e.target)) {
         openForm();
-    } else if (!formContainer.contains(e.target)) {
+
+    } // closing the window if clicking outside the formContainer
+    else if (!formContainer.contains(e.target)) {
         closeWindow();
     }
 });
