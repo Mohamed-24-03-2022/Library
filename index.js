@@ -5,7 +5,7 @@ const pagesInput = document.querySelector("#pages");
 const haveYouReadItInput = document.querySelector("#haveYouReadIt");
 const formContainer = document.querySelector(".form-container");
 const booksContainer = document.querySelector(".books-container");
-const addNewBookButton = document.querySelector(".new-books button");
+const openFormButton = document.querySelector(".open-form button");
 const closeButton = document.querySelector(".close-button");
 const body = document.querySelector("body");
 const myLibrary = [];
@@ -16,15 +16,7 @@ function Book(title, author, pages, haveYouReadIt) {
     this.pages = pages;
     this.haveYouReadIt = haveYouReadIt;
 }
-Book.prototype.info = function () {
-    return `${this.title} by ${this.author}, ${this.pages} pages, ${this.haveYouReadIt}`;
-};
-// default items
-const book1 = new Book("The Compound Effect", "Darren Hardy", "200", true);
-myLibrary.push(book1);
-
-
-const createCard = () => {
+Book.prototype.createCard = function () {
     const bookCard = document.createElement("div");
     const titlePara = document.createElement("p");
     const authorPara = document.createElement("p");
@@ -37,49 +29,73 @@ const createCard = () => {
     // myLibrary.splice(index, 1);
     bookCard.classList.add("book-card");
     deleteButton.classList.add("delete-button");
-    deleteButton.textContent = "Delete book";
     readStatusButton.classList.add("read-status");
+    deleteButton.textContent = "Delete book";
     readStatusButton.textContent = "Change status";
-    fillBookCard(bookCard, titlePara, authorPara, pagesPara, haveYouReadItPara, deleteButton, readStatusButton);
-}
-const deleteCard = (deleteButton, book) => {
+    this.fillBookCard(bookCard, titlePara, authorPara, pagesPara, haveYouReadItPara, deleteButton, readStatusButton);
+};
+Book.prototype.fillBookCard = function (bookCard, titlePara, authorPara, pagesPara, haveYouReadItPara, deleteButton, readStatusButton) {
+    const book = this;
+    titlePara.textContent = `Title: ${book.title}`;
+    authorPara.textContent = `Author: ${book.author}`;
+    pagesPara.textContent = `Pages: ${book.pages}`;
+    (book.haveYouReadIt === true) ? (book.haveYouReadIt = "Yes") : (book.haveYouReadIt = "No");
+    haveYouReadItPara.textContent = `Have You Read It: ${book.haveYouReadIt}`;
+    booksContainer.appendChild(bookCard);
+    bookCard.appendChild(titlePara);
+    bookCard.appendChild(authorPara);
+    bookCard.appendChild(pagesPara);
+    bookCard.appendChild(haveYouReadItPara);
+    bookCard.appendChild(deleteButton);
+    bookCard.appendChild(readStatusButton);
+    this.deleteCard(deleteButton, book);
+    this.changeStatus(readStatusButton, book, haveYouReadItPara);
+};
+Book.prototype.deleteCard = function (deleteButton, book) {
     deleteButton.addEventListener("click", (e) => {
         const bookTitle = e.target.parentElement.firstChild.textContent.slice(7);
         if (bookTitle === book.title) {
             myLibrary.splice(myLibrary.indexOf(book), 1);
-            e.target.parentElement.remove();
+            e.target.parentElement.style.scale = "0";
+            setTimeout(() => e.target.parentElement.remove(), 300);
         }
-    });
-}
-const changeStatus = (readStatusButton, book, haveYouReadItPara) => {
-    readStatusButton.addEventListener("click", () => {
-        if (book.haveYouReadIt === "Yes") {
-            book.haveYouReadIt = "No";
-        } else {
-            book.haveYouReadIt = "Yes";
-        }
-        haveYouReadItPara.textContent = `Have You Read It: ${book.haveYouReadIt}`;
-    });
-}
-const fillBookCard = (bookCard, titlePara, authorPara, pagesPara, haveYouReadItPara, deleteButton, readStatusButton) => {
-    myLibrary.forEach(book => {
-        titlePara.textContent = `Title: ${book.title}`;
-        authorPara.textContent = `Author: ${book.author}`;
-        pagesPara.textContent = `Pages: ${book.pages}`;
-        book.haveYouReadIt === true ? (book.haveYouReadIt = "Yes") : (book.haveYouReadIt = "No");
-        haveYouReadItPara.textContent = `Have You Read It: ${book.haveYouReadIt}`;
-        booksContainer.appendChild(bookCard);
-        bookCard.appendChild(titlePara);
-        bookCard.appendChild(authorPara);
-        bookCard.appendChild(pagesPara);
-        bookCard.appendChild(haveYouReadItPara);
-        bookCard.appendChild(deleteButton);
-        bookCard.appendChild(readStatusButton);
-        deleteCard(deleteButton, book);
-        changeStatus(readStatusButton, book, haveYouReadItPara);
     });
 };
-createCard(); // to load default items
+Book.prototype.changeStatus = function (readStatusButton, book, haveYouReadItPara) {
+    readStatusButton.addEventListener("click", () => {
+        (book.haveYouReadIt === "Yes") ? (book.haveYouReadIt = "No") : (book.haveYouReadIt = "Yes");
+        haveYouReadItPara.textContent = `Have You Read It: ${book.haveYouReadIt}`;
+    });
+};
+
+// sample items
+const bookSample1 = new Book(
+    "The Compound Effect",
+    "Darren Hardy",
+    "200",
+    true
+);
+const bookSample2 = new Book(
+    "Atomic Habit",
+    "James Clear",
+    "320",
+    true
+);
+const bookSample3 = new Book(
+    "The Millionaire Fastlane",
+    "Mj Demarco",
+    "340",
+    true
+);
+const bookSample4 = new Book(
+    "Think and Grow Rich",
+    "Napoleon Hill",
+    "238",
+    true
+);
+myLibrary.push(bookSample1, bookSample2, bookSample3, bookSample4);
+myLibrary.forEach((bookSample) => bookSample.createCard());
+
 
 const resettingInputs = () => {
     titleInput.value = "";
@@ -99,20 +115,22 @@ const addBookToLibrary = () => {
             haveYouReadItInput.checked
         );
         myLibrary.push(newBook);
-        createCard();
+        newBook.createCard();
         resettingInputs();
         closeWindow();
     });
-}
+};
 addBookToLibrary();
-addNewBookButton.addEventListener("click", () => {
+// opening the form container
+const openForm = () => {
     formContainer.style.scale = "1";
     addBookToLibraryButton.style.visibility = "visible";
     closeButton.style.visibility = "visible";
     if ((formContainer.style.visibility = "visible")) {
         body.style.backgroundColor = "#00000087";
     }
-});
+};
+// closing the form container
 const closeWindow = () => {
     formContainer.style.scale = "0";
     addBookToLibraryButton.style.visibility = "hidden";
@@ -121,4 +139,18 @@ const closeWindow = () => {
         body.style.backgroundColor = "";
     }
 };
+window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        closeWindow();
+    }
+});
+
 closeButton.addEventListener("click", closeWindow);
+
+body.addEventListener('click', (e) => {
+    if (openFormButton.contains(e.target)) {
+        openForm();
+    } else if (!formContainer.contains(e.target)) {
+        closeWindow();
+    }
+});

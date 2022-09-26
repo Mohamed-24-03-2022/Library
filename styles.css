@@ -99,8 +99,6 @@ section.main-container {
   background-color: var(--main-bg-color);
   padding: 30px;
 }
-.new-books {
-}
 .books-container {
   width: 90%;
   padding: 30px;
@@ -120,7 +118,10 @@ section.main-container {
   line-height: 2;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;  
   background-color: var(--white-bg-color);
-  transition: 500ms ease-in-out;
+  transition: 300ms ease-in-out;
+}
+.book-card:hover {
+  scale: 1.03;
 }
 .delete-button {
   align-self: center;
