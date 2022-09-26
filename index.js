@@ -9,6 +9,7 @@ const openFormButton = document.querySelector(".open-form button");
 const closeButton = document.querySelector(".close-button");
 const body = document.querySelector("body");
 const myLibrary = [];
+let booksCard = "";
 
 function Book(title, author, pages, haveYouReadIt) {
     this.title = title;
@@ -123,20 +124,25 @@ const addBookToLibrary = () => {
 addBookToLibrary();
 // opening the form container
 const openForm = () => {
+    booksCard = document.querySelectorAll(".book-card");
     formContainer.style.scale = "1";
     addBookToLibraryButton.style.visibility = "visible";
     closeButton.style.visibility = "visible";
     if ((formContainer.style.visibility = "visible")) {
         body.style.backgroundColor = "#00000087";
+        console.log(booksCard);
+        booksCard.forEach(bookCard => bookCard.style.backgroundColor = "#e3e3e357");
     }
 };
 // closing the form container
 const closeWindow = () => {
+    booksCard = document.querySelectorAll(".book-card");
     formContainer.style.scale = "0";
     addBookToLibraryButton.style.visibility = "hidden";
     closeButton.style.visibility = "hidden";
     if ((formContainer.style.visibility = "hidden")) {
         body.style.backgroundColor = "";
+        booksCard.forEach(bookCard => bookCard.style.backgroundColor = "#ffffff");
     }
 };
 window.addEventListener("keydown", (e) => {
