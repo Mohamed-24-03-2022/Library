@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="styles.css" />
+    <script src="main.js" defer></script>
+    <link
+      rel="shortcut icon"
+      href="./img/serialized-books.png"
+      type="image/x-icon"
+    />
+    <title>Library</title>
+  </head>
+  <body>
+    <section class="navbar">
+      <nav class="navbar-container">
+        <div class="brand-text">
+          <p>Library</p>
+        </div>
+        <div class="log-in-button">
+          <button>Log In</button>
+        </div>
+      </nav>
+    </section>
+
+    <section class="main-container">
+      <div class="open-form">
+        <button>+ Add book</button>
+      </div>
+      <div class="books-container"></div>
+    </section>
+
+    <footer>
+      <div class="footer-container">
+        <p>
+          Copyright © 2022 Mohamed-24-03-2022
+          <a href="https://github.com/mohamed-24-03-2022" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        </p>
+      </div>
+    </footer>
+
+    <!---------------------------- Adding a new book card ---------------------------------->
+    <div class="form-container">
+      <button class="close-button">close</button>
+      <form action="/">
+        <div>
+          <label for="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div>
+          <label for="author">Author</label>
+          <input
+            type="text"
+            name="author"
+            id="author"
+            spellcheck="false"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div>
+          <label for="pages">Pages</label>
+          <input type="number" name="pages" id="pages" required min="0" />
+        </div>
+        <div>
+          <label for="haveYouReadIt">Have You Read It</label>
+          <input type="checkbox" name="haveYouReadIt" id="haveYouReadIt" />
+        </div>
+        <button class="addItButton">Add it</button>
+      </form>
+    </div>
+    <!--------------------------------------------------------------------------------------------------->
+
+    <script
+      src="https://kit.fontawesome.com/4beab0cc1e.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
